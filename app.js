@@ -29,6 +29,7 @@ function onReady() {
       renderTheUI();
   }
 
+
   function renderTheUI() {
     const toDoList = document.getElementById('toDoList');
 
@@ -43,6 +44,8 @@ function onReady() {
       const deleteButton = document.createElement('button');
 
       checkbox.type = "checkbox";
+
+
       deleteButton.type = "button";
 
       newLi.textContent = toDo.title;
@@ -60,7 +63,20 @@ function onReady() {
       deleteButton.addEventListener("click", () => {
         removal(toDo.id);
       });
+      //Write an EventHandler that toggles the value
+      //of the 'complete' property b/n 'true' and 'false'
+      //when the checkbox is checked/unchecked
+      checkbox.addEventListener("change", () => {
+        //write toggle function to be called later by Checkbox EventListener
+        if(checkbox.checked){
+            toDo.complete = true;
+          } else {
+            toDo.complete = false;
+          }
+      });
     });
+    //save the toDos array to localStorage whenever its modified
+    localStorage.setItem('toDos', JSON.stringify(toDos));
   }
   addToDoForm.addEventListener('submit', event => {
     event.preventDefault();
@@ -70,5 +86,9 @@ function onReady() {
 }
 
 window.onload = function() {
+  toDos = localStorage.getItem('toDos');
+  if(toDos !== null) {
+    toDos = JSON.parse(toDos);
+  }
   onReady();
 }
